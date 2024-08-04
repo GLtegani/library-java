@@ -35,7 +35,7 @@ public class Book {
       return isbn;
    }
 
-   public final void setIsbn(Integer isbn) {
+   protected final void setIsbn(Integer isbn) {
       this.isbn = isbn;
    }
 
@@ -43,7 +43,7 @@ public class Book {
       return author;
    }
 
-   public final void setAuthor(String author) {
+   protected final void setAuthor(String author) {
       this.author = author;
    }
 
@@ -51,47 +51,51 @@ public class Book {
       return title;
    }
 
-   public void setTitle(String title) {
+   protected final void setTitle(String title) {
       this.title = title;
    }
 
-   public String getPublishingCompany() {
+   public final String getPublishingCompany() {
       return publishingCompany;
    }
 
-   public void setPublishingCompany(String publishingCompany) {
+   protected final void setPublishingCompany(String publishingCompany) {
       this.publishingCompany = publishingCompany;
    }
 
-   public LocalDate getPublicationYear() {
-      return publicationYear;
+   public final String getPublicationYear() {
+      return this.formatter.format(this.publicationYear);
    }
 
-   public void setPublicationYear(LocalDate publicationYear) {
+   protected final void setPublicationYear(LocalDate publicationYear) {
       this.publicationYear = publicationYear;
    }
 
-   public Library.LiteraryGenre getLiteraryGenre() {
+   public final LiteraryGenre getLiteraryGenre() {
       return literaryGenre;
    }
 
-   public void setLiteraryGenre(Library.LiteraryGenre literaryGenre) {
+   protected final void setLiteraryGenre(LiteraryGenre literaryGenre) {
       this.literaryGenre = literaryGenre;
    }
 
-   public Double getPrice() {
+   public final Double getPrice() {
       return price;
    }
 
-   public void setPrice(Double price) {
+   protected final void setPrice(Double price) {
       this.price = price;
    }
 
-   public Integer getQuantity() {
+   public final Integer getQuantity() {
       return quantity;
    }
 
-   public void setQuantity(Integer quantity) {
-      this.quantity = quantity;
+   protected final void addQuantity(Integer quantity) {
+      this.quantity += quantity;
+   }
+
+   protected final void removeQuantity(Integer quantity) {
+      this.quantity -= quantity;
    }
 }

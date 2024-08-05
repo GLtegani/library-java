@@ -18,28 +18,51 @@ public class Library {
            Integer isbn, String author, String title, String publishingCompany, LocalDate publicationYear,
            LiteraryGenre literaryGenre, Double price, Integer quantity
    ) {
+      if(
+         isbn == null || author == null || title == null || publishingCompany == null || publicationYear == null ||
+            literaryGenre == null || price == null || quantity == null
+      ) {
+         throw new LibraryException("Put the correct information");
+      } else {
          Book book = new Book(
                  isbn, author, title, publishingCompany, publicationYear, literaryGenre, price, quantity
          );
          if(this.booksList.contains(book)) {
-            Book bookExists = (Book) this.booksList.stream().filter(book1 -> book1 == book);
-            System.out.println("You already have this book in the library, so will be added to your quantity");
-            bookExists.addQuantity(quantity);
+               Book bookExists = (Book) this.booksList.stream().filter(book1 -> book1 == book);
+               System.out.println("You already have this book in the library, so will be added to your quantity");
+               bookExists.addQuantity(quantity);
          } else {
             this.booksList.add(book);
          }
+      }
+
    }
 
-   public final void removeBook(Book book, Integer quantity) {
-      if(!this.booksList.contains(book)) {
-         throw new LibraryException("This book doesn't exists in Library to remove");
+   public final void removeBook(Integer isbn, Integer quantity) {
+      if(this.booksList.isEmpty()) {
+         throw new LibraryException("You don't have any book in your library");
       } else {
-         if(book.getQuantity() - quantity <= 0) {
-            this.booksList.remove(book);
-         } else {
-            book.removeQuantity(quantity);
+         for(Book book : this.booksList) {
+            if(!isbn.equals(book.getIsbn())) {
+               throw new LibraryException("This book doesn't exists in Library to remove");
+            } else {
+               if(book.getQuantity() - quantity <= 0) {
+                  this.booksList.remove(book);
+               } else {
+                  book.removeQuantity(quantity);
+               }
+            }
          }
       }
+   }
+
+   public final boolean isbnAlreadyExist(Integer isbn) {
+      for(Book book : this.booksList) {
+         if(isbn.equals(book.getIsbn())) {
+            return true;
+         }
+      }
+      return false;
    }
 
    public final void editAuthorName(Book book, String authorName) {
@@ -93,6 +116,35 @@ public class Library {
       } else {
          Book bookExists = (Book) this.booksList.stream().filter(book1 -> book1 == book);
          bookExists.setPrice(price);
+      }
+   }
+
+   public final Book showBook(Integer isbn) {
+      for (Book book : this.booksList) {
+         if(isbn.equals(book.getIsbn())) {
+            return book;
+         }
+      }
+      return null;
+   }
+
+   @Override
+   public final String toString() {
+      if(this.booksList.isEmpty()) {
+         throw new LibraryException("You don't have any book in your library");
+      } else {
+         StringBuilder sb = new StringBuilder();
+         for(Book book : this.booksList) {
+            sb.append("ISBN: " + book.getIsbn() + "\n");
+            sb.append("Author name: " + book.getAuthor() + "\n");
+            sb.append("Title: " + book.getTitle() + "\n");
+            sb.append("Publishing Company: " + book.getPublishingCompany() + "\n");
+            sb.append("Publication Year: " + book.getPublicationYear() + "\n");
+            sb.append("Literary Genre: " + book.getLiteraryGenre() + "\n");
+            sb.append("Price: " + String.format("%.2f", book.getPrice()) + "\n");
+            sb.append("Quantity: " + book.getQuantity() + "\n");
+         }
+         return sb.toString();
       }
    }
 }

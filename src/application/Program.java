@@ -4,6 +4,7 @@ import Library.Library;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import Library.LiteraryGenre;
@@ -32,43 +33,53 @@ public class Program {
             switch (userAnswer) {
                case 1:
                   System.out.println("Add new book");
+                  System.out.println();
                   System.out.print("ISBN: ");
                   Integer bookIsbn = sc.nextInt();
                   sc.nextLine();
-                  System.out.print("Author: ");
-                  String bookAuthor = sc.nextLine();
-                  System.out.print("Title: ");
-                  String bookTitle = sc.nextLine();
-                  System.out.print("Publishing Company: ");
-                  String bookPublishingCompany = sc.nextLine();
-                  System.out.print("Publication Year (dd/mm/yyyy): ");
-                  String publicationYear = sc.nextLine();
-                  LocalDate bookPublicationYear = LocalDate.parse(publicationYear, formatter);
-                  System.out.print("Literary Genre: ");
-                  String literaryGenre = sc.nextLine();
-                  LiteraryGenre bookLiteraryGenre = LiteraryGenre.valueOf(literaryGenre);
-                  System.out.print("Book price: ");
-                  Double bookPrice = sc.nextDouble();
-                  System.out.print("Book quantity: ");
-                  Integer bookQuantity = sc.nextInt();
-                  sc.nextLine();
+                  if(library.isbnAlreadyExist(bookIsbn)) {
+                     System.out.println("You already have this book in your library");
+                     library.showBook(bookIsbn);
+                  } else {
+                     System.out.print("Author: ");
+                     String bookAuthor = sc.nextLine();
+                     System.out.print("Title: ");
+                     String bookTitle = sc.nextLine();
+                     System.out.print("Publishing Company: ");
+                     String bookPublishingCompany = sc.nextLine();
+                     System.out.print("Publication Year (dd/mm/yyyy): ");
+                     String publicationYear = sc.nextLine();
+                     LocalDate bookPublicationYear = LocalDate.parse(publicationYear, formatter);
+                     System.out.print("Literary Genre: ");
+                     String literaryGenre = sc.nextLine();
+                     LiteraryGenre bookLiteraryGenre = LiteraryGenre.valueOf(literaryGenre);
+                     System.out.print("Book price: ");
+                     Double bookPrice = sc.nextDouble();
+                     System.out.print("Book quantity: ");
+                     Integer bookQuantity = sc.nextInt();
+                     sc.nextLine();
 
-                  library.addBook(
-                     bookIsbn, bookAuthor, bookTitle, bookPublishingCompany, bookPublicationYear, bookLiteraryGenre,
-                     bookPrice, bookQuantity
-                  );
-                  System.out.println();
+                     library.addBook(
+                        bookIsbn, bookAuthor, bookTitle, bookPublishingCompany, bookPublicationYear, bookLiteraryGenre,
+                        bookPrice, bookQuantity
+                     );
+                     System.out.println();
+                  }
                   break;
                case 2:
                   System.out.println("Remove Book");
+                  System.out.println();
                   System.out.println();
                   break;
                case 3:
                   System.out.println("Edit Book");
                   System.out.println();
+                  System.out.println();
                   break;
                case 4:
                   System.out.println("Books list");
+                  System.out.println();
+                  System.out.println(library);
                   System.out.println();
                   break;
                case 5:
@@ -81,10 +92,10 @@ public class Program {
                   break;
             }
          } catch (LibraryException e) {
-            System.out.println(e);
+            System.err.println(e);
             System.out.println();
-         } catch (InputMismatchException e) {
-            System.out.println("The argument doesn't match, try again");
+         } catch (InputMismatchException | DateTimeParseException e) {
+            System.err.println("The argument doesn't match, try again");
             sc.nextLine();
             System.out.println();
          }

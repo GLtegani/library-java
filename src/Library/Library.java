@@ -1,7 +1,11 @@
 package Library;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.List;
 
 public class Library {
@@ -42,27 +46,35 @@ public class Library {
       if(this.booksList.isEmpty()) {
          throw new LibraryException("You don't have any book in your library");
       } else {
-         for(Book book : this.booksList) {
-            if(!isbn.equals(book.getIsbn())) {
-               throw new LibraryException("This book doesn't exists in Library to remove");
-            } else {
-               if(book.getQuantity() - quantity <= 0) {
-                  this.booksList.remove(book);
+         Iterator<Book> iterator = this.booksList.iterator();
+         while (iterator.hasNext()) {
+            Book book = iterator.next();
+            if (isbn.equals(book.getIsbn())) {
+               if (book.getQuantity() - quantity <= 0) {
+                  iterator.remove();  // Remove book safely using iterator
                } else {
-                  book.removeQuantity(quantity);
+                  book.removeQuantity(quantity);  // Adjust quantity if sufficient
                }
+               return;  // Exit after processing the book
             }
          }
+
+         // Handle the case where the book with the specified ISBN is not found
+         throw new LibraryException("Book with ISBN " + isbn + " not found");
       }
    }
 
    public final boolean isbnAlreadyExist(Integer isbn) {
-      for(Book book : this.booksList) {
-         if(isbn.equals(book.getIsbn())) {
-            return true;
+      if(isbn == null) {
+         throw new InputMismatchException("Invalid value");
+      } else {
+         for(Book book : this.booksList) {
+            if(isbn.equals(book.getIsbn())) {
+               return true;
+            }
          }
+         return false;
       }
-      return false;
    }
 
    public final void editAuthorName(Book book, String authorName) {
@@ -119,10 +131,22 @@ public class Library {
       }
    }
 
-   public final Book showBook(Integer isbn) {
+   public final void showBook(Integer isbn) {
       for (Book book : this.booksList) {
          if(isbn.equals(book.getIsbn())) {
-            return book;
+            System.out.println(book);
+         }
+      }
+   }
+
+   public final @Nullable Book getBook(Integer isbn) {
+      if(!isbnAlreadyExist(isbn)) {
+         throw new LibraryException("This book doesn't exists in your library");
+      } else {
+         for(Book book : this.booksList) {
+            if(isbn.equals(book.getIsbn())) {
+               return book;
+            }
          }
       }
       return null;
@@ -143,6 +167,7 @@ public class Library {
             sb.append("Literary Genre: " + book.getLiteraryGenre() + "\n");
             sb.append("Price: " + String.format("%.2f", book.getPrice()) + "\n");
             sb.append("Quantity: " + book.getQuantity() + "\n");
+            sb.append("\n");
          }
          return sb.toString();
       }

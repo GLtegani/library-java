@@ -91,11 +91,27 @@ public class Book {
       return quantity;
    }
 
-   protected final void addQuantity(Integer quantity) {
+   public final void addQuantity(Integer quantity) {
       this.quantity += quantity;
    }
 
-   protected final void removeQuantity(Integer quantity) {
+   public final void removeQuantity(Integer quantity) {
       this.quantity -= quantity;
+   }
+
+   @Override
+   public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("Book \n");
+      sb.append("ISBN: " + getIsbn() + "\n");
+      sb.append("Author name: " + getAuthor() + "\n");
+      sb.append("Title: " + getTitle() + "\n");
+      sb.append("Publishing Company: " + getPublishingCompany() + "\n");
+      sb.append("Publication Year: " + getPublicationYear() + "\n");
+      sb.append("Literary Genre: " + getLiteraryGenre() + "\n");
+      sb.append("Price: " + String.format("%.2f", getPrice()) + "\n");
+      sb.append("Quantity: " + getQuantity() + "\n");
+
+      return sb.toString();
    }
 }

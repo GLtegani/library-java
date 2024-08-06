@@ -52,6 +52,7 @@ public class Program {
                         sc.nextLine();
                         if(library.getBook(bookIsbn) != null) {
                            library.getBook(bookIsbn).addQuantity(bookQuantity);
+                           System.out.println("Success");
                            System.out.println();
                         } else {
                            System.out.println();
@@ -71,7 +72,7 @@ public class Program {
                      String publicationYear = sc.nextLine();
                      LocalDate bookPublicationYear = LocalDate.parse(publicationYear, formatter);
                      System.out.print("Literary Genre: ");
-                     String literaryGenre = sc.nextLine();
+                     String literaryGenre = sc.nextLine().toUpperCase();
                      LiteraryGenre bookLiteraryGenre = LiteraryGenre.valueOf(literaryGenre);
                      System.out.print("Book price: ");
                      Double bookPrice = sc.nextDouble();
@@ -83,6 +84,7 @@ public class Program {
                         bookIsbn, bookAuthor, bookTitle, bookPublishingCompany, bookPublicationYear, bookLiteraryGenre,
                         bookPrice, bookQuantity
                      );
+                     System.out.println("Success");
                      System.out.println();
                   }
                   break;
@@ -111,6 +113,7 @@ public class Program {
                                  int quantityToRemove = sc.nextInt();
                                  sc.nextLine();
                                  library.removeBook(isbn, quantityToRemove);
+                                 System.out.println("Success");
                                  break;
                               }
                            } else if(tryOrExit.equals("exit") || tryOrExit.equals("EXIT")) {
@@ -125,6 +128,7 @@ public class Program {
                         int quantityToRemove = sc.nextInt();
                         sc.nextLine();
                         library.removeBook(isbn, quantityToRemove);
+                        System.out.println("Success");
                      }
                   }
                   System.out.println();
@@ -137,31 +141,102 @@ public class Program {
                      System.out.println();
                      System.out.println("1- Edit author name (1)");
                      System.out.println("2- Edit title (2)");
-                     System.out.println("3- Edit published company (3)");
+                     System.out.println("3- Edit publishing company (3)");
                      System.out.println("4- Edit publication year (4)");
                      System.out.println("5- Edit literary genre (5)");
                      System.out.println("6- Edit price (6)");
                      System.out.print("Enter: ");
-                     int fieldToEdit = 0;
-                     fieldToEdit = sc.nextInt();
+                     int fieldToEdit = sc.nextInt();
                      sc.nextLine();
-
+                     Integer isbnToEdit = null;
                      switch (fieldToEdit) {
                         case 1:
                            System.out.print("Enter ISBN of book you want to edit author name or 0 to return:  ");
-                           int isbnToEdit = sc.nextInt();
+                           isbnToEdit = sc.nextInt();
                            sc.nextLine();
                            if(isbnToEdit == 0) {
                               System.out.println("Returning");
-                              break;
                            } else {
                               library.showBook(isbnToEdit);
                               System.out.print("Enter new author name to this book: ");
                               String newAuthorName = sc.nextLine();
+                              library.editAuthorName(isbnToEdit, newAuthorName);
+                              System.out.println("Success");
                            }
-
+                           break;
+                        case 2:
+                           System.out.print("Enter ISBN of book you want to edit title or 0 to return:  ");
+                           isbnToEdit = sc.nextInt();
+                           sc.nextLine();
+                           if(isbnToEdit == 0) {
+                              System.out.println("Returning");
+                           } else {
+                              library.showBook(isbnToEdit);
+                              System.out.print("Enter new title to this book: ");
+                              String newTitle = sc.nextLine();
+                              library.editTitle(isbnToEdit, newTitle);
+                              System.out.println("Success");
+                           }
+                           break;
+                        case 3:
+                           System.out.print("Enter ISBN of book you want to edit publishing company or 0 to return:  ");
+                           isbnToEdit = sc.nextInt();
+                           sc.nextLine();
+                           if(isbnToEdit == 0) {
+                              System.out.println("Returning");
+                           } else {
+                              library.showBook(isbnToEdit);
+                              System.out.print("Enter new publishing company to this book: ");
+                              String newPublishingCompany = sc.nextLine();
+                              library.editPublishingCompany(isbnToEdit, newPublishingCompany);
+                              System.out.println("Success");
+                           }
+                           break;
+                        case 4:
+                           System.out.print("Enter ISBN of book you want to edit publication year or 0 to return:  ");
+                           isbnToEdit = sc.nextInt();
+                           sc.nextLine();
+                           if(isbnToEdit == 0) {
+                              System.out.println("Returning");
+                           } else {
+                              library.showBook(isbnToEdit);
+                              System.out.print("Enter new publication year to this book (dd/mm/yyyy): ");
+                              String publicationYear = sc.nextLine();
+                              LocalDate newPublicationYear = LocalDate.parse(publicationYear, formatter);
+                              library.editPublicationYear(isbnToEdit, newPublicationYear);
+                              System.out.println("Success");
+                           }
+                           break;
+                        case 5:
+                           System.out.print("Enter ISBN of book you want to edit literary genre or 0 to return:  ");
+                           isbnToEdit = sc.nextInt();
+                           sc.nextLine();
+                           if(isbnToEdit == 0) {
+                              System.out.println("Returning");
+                           } else {
+                              library.showBook(isbnToEdit);
+                              System.out.print("Enter new literary genre to this book: ");
+                              String literaryGenre = sc.nextLine().toUpperCase();
+                              LiteraryGenre newLiteraryGenre = LiteraryGenre.valueOf(literaryGenre);
+                              library.editLiteraryGenre(isbnToEdit, newLiteraryGenre);
+                              System.out.println("Success");
+                           }
+                           break;
+                        case 6:
+                           System.out.print("Enter ISBN of book you want to edit price or 0 to return:  ");
+                           isbnToEdit = sc.nextInt();
+                           sc.nextLine();
+                           if(isbnToEdit == 0) {
+                              System.out.println("Returning");
+                           } else {
+                              library.showBook(isbnToEdit);
+                              System.out.print("Enter new price to this book: ");
+                              double newPrice = sc.nextDouble();
+                              library.editPrice(isbnToEdit, newPrice);
+                              System.out.println("Success");
+                           }
+                           break;
                      }
-
                      System.out.println();
                      break;
                   }
@@ -187,7 +262,7 @@ public class Program {
          } catch (LibraryException e) {
             System.err.println(e.getMessage());
             System.out.println();
-         } catch (InputMismatchException | DateTimeParseException e) {
+         } catch (InputMismatchException | DateTimeParseException | IllegalArgumentException e) {
             System.err.println("The argument doesn't match, try again");
             sc.nextLine();
             System.out.println();

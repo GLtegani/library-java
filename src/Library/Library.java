@@ -46,6 +46,8 @@ public class Library {
    public final void removeBook(Integer isbn, Integer quantity) {
       if(this.booksList.isEmpty()) {
          throw new LibraryException("You don't have any book in your library");
+      } else if(!isbnAlreadyExist(isbn)) {
+         throw new LibraryException("This book doesn't exist in your library");
       } else {
          Iterator<Book> iterator = this.booksList.iterator();
          while (iterator.hasNext()) {
@@ -59,14 +61,11 @@ public class Library {
                return;  // Exit after processing the book
             }
          }
-
-         // Handle the case where the book with the specified ISBN is not found
-         throw new LibraryException("Book with ISBN " + isbn + " not found");
       }
    }
 
    public final boolean isbnAlreadyExist(Integer isbn) {
-      if(isbn == null) {
+      if(isbn == null || isbn == 0) {
          throw new InputMismatchException("Invalid value");
       } else {
          for(Book book : this.booksList) {
@@ -78,57 +77,81 @@ public class Library {
       }
    }
 
-   public final void editAuthorName(Book book, String authorName) {
-      if(!this.booksList.contains(book)) {
+   public final void editAuthorName(Integer isbn, String authorName) {
+      if(!isbnAlreadyExist(isbn)) {
          throw new LibraryException("This book doesn't exists in Library to edit");
       } else {
-         Book bookExists = (Book) this.booksList.stream().filter(book1 -> book1 == book);
-         bookExists.setAuthor(authorName);
+         for(Book book : this.booksList) {
+            if(isbn.equals(book.getIsbn())) {
+               book.setAuthor(authorName);
+               break;
+            }
+         }
       }
    }
 
-   public final void editTitle(Book book, String title) {
-      if(!this.booksList.contains(book)) {
+   public final void editTitle(Integer isbn, String title) {
+      if(!isbnAlreadyExist(isbn)) {
          throw new LibraryException("This book doesn't exists in Library to edit");
       } else {
-         Book bookExists = (Book) this.booksList.stream().filter(book1 -> book1 == book);
-         bookExists.setTitle(title);
+         for(Book book : this.booksList) {
+            if(isbn.equals(book.getIsbn())) {
+               book.setTitle(title);
+               break;
+            }
+         }
       }
    }
 
-   public final void editPublishedCompany(Book book, String publishedCompany) {
-      if(!this.booksList.contains(book)) {
+   public final void editPublishingCompany(Integer isbn, String publishingCompany) {
+      if(!isbnAlreadyExist(isbn)) {
          throw new LibraryException("This book doesn't exists in Library to edit");
       } else {
-         Book bookExists = (Book) this.booksList.stream().filter(book1 -> book1 == book);
-         bookExists.setPublishingCompany(publishedCompany);
+         for(Book book : this.booksList) {
+            if(isbn.equals(book.getIsbn())) {
+               book.setPublishingCompany(publishingCompany);
+               break;
+            }
+         }
       }
    }
 
-   public final void editPublicationYear(Book book, LocalDate publicationYear) {
-      if(!this.booksList.contains(book)) {
+   public final void editPublicationYear(Integer isbn, LocalDate publicationYear) {
+      if(!isbnAlreadyExist(isbn)) {
          throw new LibraryException("This book doesn't exists in Library to edit");
       } else {
-         Book bookExists = (Book) this.booksList.stream().filter(book1 -> book1 == book);
-         bookExists.setPublicationYear(publicationYear);
+         for(Book book : this.booksList) {
+            if(isbn.equals(book.getIsbn())) {
+               book.setPublicationYear(publicationYear);
+               break;
+            }
+         }
       }
    }
 
-   public final void editLiteraryGenre(Book book, LiteraryGenre literaryGenre) {
-      if(!this.booksList.contains(book)) {
+   public final void editLiteraryGenre(Integer isbn, LiteraryGenre literaryGenre) {
+      if(!isbnAlreadyExist(isbn)) {
          throw new LibraryException("This book doesn't exists in Library to edit");
       } else {
-         Book bookExists = (Book) this.booksList.stream().filter(book1 -> book1 == book);
-         bookExists.setLiteraryGenre(literaryGenre);
+         for(Book book : this.booksList) {
+            if(isbn.equals(book.getIsbn())) {
+               book.setLiteraryGenre(literaryGenre);
+               break;
+            }
+         }
       }
    }
 
-   public final void editPrice(Book book, Double price) {
-      if(!this.booksList.contains(book)) {
+   public final void editPrice(Integer isbn, Double price) {
+      if(!isbnAlreadyExist(isbn)) {
          throw new LibraryException("This book doesn't exists in Library to edit");
       } else {
-         Book bookExists = (Book) this.booksList.stream().filter(book1 -> book1 == book);
-         bookExists.setPrice(price);
+         for(Book book : this.booksList) {
+            if(isbn.equals(book.getIsbn())) {
+               book.setPrice(price);
+               break;
+            }
+         }
       }
    }
 

@@ -1,5 +1,6 @@
 package Library;
 
+
 import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ public class Library {
            LiteraryGenre literaryGenre, Double price, Integer quantity
    ) {
       if(
-         isbn == null || author == null || title == null || publishingCompany == null || publicationYear == null ||
+         isbn == null || isbn == 0 || author == null || title == null || publishingCompany == null || publicationYear == null ||
             literaryGenre == null || price == null || quantity == null
       ) {
          throw new LibraryException("Put the correct information");
@@ -132,9 +133,13 @@ public class Library {
    }
 
    public final void showBook(Integer isbn) {
-      for (Book book : this.booksList) {
-         if(isbn.equals(book.getIsbn())) {
-            System.out.println(book);
+      if(!isbnAlreadyExist(isbn)) {
+         throw new LibraryException("This book doesn't exist to show");
+      } else {
+         for (Book book : this.booksList) {
+            if(isbn.equals(book.getIsbn())) {
+               System.out.println(book);
+            }
          }
       }
    }
@@ -159,14 +164,14 @@ public class Library {
       } else {
          StringBuilder sb = new StringBuilder();
          for(Book book : this.booksList) {
-            sb.append("ISBN: " + book.getIsbn() + "\n");
-            sb.append("Author name: " + book.getAuthor() + "\n");
-            sb.append("Title: " + book.getTitle() + "\n");
-            sb.append("Publishing Company: " + book.getPublishingCompany() + "\n");
-            sb.append("Publication Year: " + book.getPublicationYear() + "\n");
-            sb.append("Literary Genre: " + book.getLiteraryGenre() + "\n");
-            sb.append("Price: " + String.format("%.2f", book.getPrice()) + "\n");
-            sb.append("Quantity: " + book.getQuantity() + "\n");
+            sb.append("ISBN: ").append(book.getIsbn()).append("\n");
+            sb.append("Author name: ").append(book.getAuthor()).append("\n");
+            sb.append("Title: ").append(book.getTitle()).append("\n");
+            sb.append("Publishing Company: ").append(book.getPublishingCompany()).append("\n");
+            sb.append("Publication Year: ").append(book.getPublicationYear()).append("\n");
+            sb.append("Literary Genre: ").append(book.getLiteraryGenre()).append("\n");
+            sb.append("Price: ").append(String.format("%.2f", book.getPrice())).append("\n");
+            sb.append("Quantity: ").append(book.getQuantity()).append("\n");
             sb.append("\n");
          }
          return sb.toString();

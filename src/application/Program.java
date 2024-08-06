@@ -88,7 +88,7 @@ public class Program {
                   break;
                case 2:
                   if(library.getBooksList().isEmpty()) {
-                     System.out.println("You don't have any book to remove from your library");
+                     throw new LibraryException("You don't have any book to remove from your library");
                   } else {
                      System.out.println("Which book do you want to remove?");
                      System.out.print("ISBN OF BOOK: ");
@@ -130,15 +130,50 @@ public class Program {
                   System.out.println();
                   break;
                case 3:
-                  System.out.println("Edit Book");
-                  System.out.println();
-                  System.out.println();
-                  break;
+                  if(library.getBooksList().isEmpty()) {
+                     throw new LibraryException("You don't have any book in your library to edit");
+                  } else {
+                     System.out.println("Edit Book");
+                     System.out.println();
+                     System.out.println("1- Edit author name (1)");
+                     System.out.println("2- Edit title (2)");
+                     System.out.println("3- Edit published company (3)");
+                     System.out.println("4- Edit publication year (4)");
+                     System.out.println("5- Edit literary genre (5)");
+                     System.out.println("6- Edit price (6)");
+                     System.out.print("Enter: ");
+                     int fieldToEdit = 0;
+                     fieldToEdit = sc.nextInt();
+                     sc.nextLine();
+
+                     switch (fieldToEdit) {
+                        case 1:
+                           System.out.print("Enter ISBN of book you want to edit author name or 0 to return:  ");
+                           int isbnToEdit = sc.nextInt();
+                           sc.nextLine();
+                           if(isbnToEdit == 0) {
+                              System.out.println("Returning");
+                              break;
+                           } else {
+                              library.showBook(isbnToEdit);
+                              System.out.print("Enter new author name to this book: ");
+                              String newAuthorName = sc.nextLine();
+                           }
+
+                     }
+
+                     System.out.println();
+                     break;
+                  }
                case 4:
-                  System.out.println("Books list");
-                  System.out.println();
-                  System.out.println(library);
-                  System.out.println();
+                  if(library.getBooksList().isEmpty()) {
+                     throw new LibraryException("You don't have any book in your library to show");
+                  } else {
+                     System.out.println("Books list");
+                     System.out.println();
+                     System.out.println(library);
+                     System.out.println();
+                  }
                   break;
                case 5:
                   System.out.println("End");
@@ -151,7 +186,6 @@ public class Program {
             }
          } catch (LibraryException e) {
             System.err.println(e.getMessage());
-            sc.nextLine();
             System.out.println();
          } catch (InputMismatchException | DateTimeParseException e) {
             System.err.println("The argument doesn't match, try again");

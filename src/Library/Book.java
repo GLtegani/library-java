@@ -103,14 +103,14 @@ public class Book {
    public String toString() {
       StringBuilder sb = new StringBuilder();
       sb.append("Book \n");
-      sb.append("ISBN: " + getIsbn() + "\n");
-      sb.append("Author name: " + getAuthor() + "\n");
-      sb.append("Title: " + getTitle() + "\n");
-      sb.append("Publishing Company: " + getPublishingCompany() + "\n");
-      sb.append("Publication Year: " + getPublicationYear() + "\n");
-      sb.append("Literary Genre: " + getLiteraryGenre() + "\n");
-      sb.append("Price: " + String.format("%.2f", getPrice()) + "\n");
-      sb.append("Quantity: " + getQuantity() + "\n");
+      sb.append("ISBN: ").append(getIsbn()).append("\n");
+      sb.append("Author name: ").append(getAuthor()).append("\n");
+      sb.append("Title: ").append(getTitle()).append("\n");
+      sb.append("Publishing Company: ").append(getPublishingCompany()).append("\n");
+      sb.append("Publication Year: ").append(getPublicationYear()).append("\n");
+      sb.append("Literary Genre: ").append(getLiteraryGenre()).append("\n");
+      sb.append("Price: ").append(String.format("%.2f", getPrice())).append("\n");
+      sb.append("Quantity: ").append(getQuantity()).append("\n");
 
       return sb.toString();
    }
